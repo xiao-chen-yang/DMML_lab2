@@ -164,28 +164,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="task-1" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Task 1<a href="solutions.html#task-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The steps for implementing Sammon mapping is similar to implementing metric MDS, that is, we need to first convert the inter-correlations into a dissimilarity matrix and then apply the <code>sammon</code> command.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="solutions.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS);<span class="fu">library</span>(smacof)</span></code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;MASS&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
-## 
-##     select</code></pre>
-<pre><code>## Loading required package: plotrix</code></pre>
-<pre><code>## Loading required package: colorspace</code></pre>
-<pre><code>## Loading required package: e1071</code></pre>
-<pre><code>## 
-## Attaching package: &#39;smacof&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:base&#39;:
-## 
-##     transform</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="solutions.html#cb13-1" aria-hidden="true" tabindex="-1"></a>crime.dist <span class="ot">&lt;-</span> <span class="fu">sim2diss</span>(crimes, <span class="at">method=</span><span class="st">&quot;corr&quot;</span>)</span>
-<span id="cb13-2"><a href="solutions.html#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb13-3"><a href="solutions.html#cb13-3" aria-hidden="true" tabindex="-1"></a>crime.sm<span class="ot">&lt;-</span><span class="fu">sammon</span>(crime.dist,<span class="at">k=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="solutions.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS);<span class="fu">library</span>(smacof)</span>
+<span id="cb5-2"><a href="solutions.html#cb5-2" aria-hidden="true" tabindex="-1"></a>crime.dist <span class="ot">&lt;-</span> <span class="fu">sim2diss</span>(crimes, <span class="at">method=</span><span class="st">&quot;corr&quot;</span>)</span>
+<span id="cb5-3"><a href="solutions.html#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb5-4"><a href="solutions.html#cb5-4" aria-hidden="true" tabindex="-1"></a>crime.sm<span class="ot">&lt;-</span><span class="fu">sammon</span>(crime.dist,<span class="at">k=</span><span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## Initial stress        : 0.06663
 ## stress after  10 iters: 0.02557, magic = 0.500
 ## stress after  20 iters: 0.02554, magic = 0.500</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="solutions.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(crime.sm<span class="sc">$</span>points,<span class="at">type=</span><span class="st">&quot;n&quot;</span>,<span class="at">asp=</span><span class="dv">1</span>)</span>
-<span id="cb15-2"><a href="solutions.html#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(crime.sm<span class="sc">$</span>points,<span class="at">labels=</span><span class="fu">names</span>(crimes))</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="solutions.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(crime.sm<span class="sc">$</span>points,<span class="at">type=</span><span class="st">&quot;n&quot;</span>,<span class="at">asp=</span><span class="dv">1</span>)</span>
+<span id="cb7-2"><a href="solutions.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(crime.sm<span class="sc">$</span>points,<span class="at">labels=</span><span class="fu">names</span>(crimes))</span></code></pre></div>
 <p><img src="main_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" />
 The plot is quite similar to the result obtained from metric MDS, except that the distance between Murder and Assault increases slightly.</p>
 </div>
@@ -194,11 +181,11 @@ The plot is quite similar to the result obtained from metric MDS, except that th
 <ol start="3" style="list-style-type: lower-alpha">
 <li>As this is a similarity matrix (larger values indicate the two letters are more likely to cause confusion and thus more similar), the first step is to convert the data into a dissimilarity matrix.</li>
 </ol>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="solutions.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(smacof)</span>
-<span id="cb16-2"><a href="solutions.html#cb16-2" aria-hidden="true" tabindex="-1"></a>letter <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;letter.csv&quot;</span>, <span class="at">row.names=</span><span class="dv">1</span>)</span>
-<span id="cb16-3"><a href="solutions.html#cb16-3" aria-hidden="true" tabindex="-1"></a>letter.dist <span class="ot">&lt;-</span> <span class="fu">sim2diss</span>(letter, <span class="at">method=</span><span class="fu">max</span>(letter)<span class="sc">+</span><span class="dv">1</span>) <span class="co">#z-s_ij</span></span>
-<span id="cb16-4"><a href="solutions.html#cb16-4" aria-hidden="true" tabindex="-1"></a>letter.dist <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(letter.dist)</span>
-<span id="cb16-5"><a href="solutions.html#cb16-5" aria-hidden="true" tabindex="-1"></a>letter.dist</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="solutions.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(smacof)</span>
+<span id="cb8-2"><a href="solutions.html#cb8-2" aria-hidden="true" tabindex="-1"></a>letter <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;letter.csv&quot;</span>, <span class="at">row.names=</span><span class="dv">1</span>)</span>
+<span id="cb8-3"><a href="solutions.html#cb8-3" aria-hidden="true" tabindex="-1"></a>letter.dist <span class="ot">&lt;-</span> <span class="fu">sim2diss</span>(letter, <span class="at">method=</span><span class="fu">max</span>(letter)<span class="sc">+</span><span class="dv">1</span>) <span class="co">#z-s_ij</span></span>
+<span id="cb8-4"><a href="solutions.html#cb8-4" aria-hidden="true" tabindex="-1"></a>letter.dist <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(letter.dist)</span>
+<span id="cb8-5"><a href="solutions.html#cb8-5" aria-hidden="true" tabindex="-1"></a>letter.dist</span></code></pre></div>
 <pre><code>##    C  D  G  H  M  N  Q
 ## D 16                  
 ## G  9 19               
@@ -208,82 +195,77 @@ The plot is quite similar to the result obtained from metric MDS, except that th
 ## Q 12  1 12 20 19 13   
 ## W 20 16 19 16  3  8 17</code></pre>
 <p>Because we have deduced dissimilarities from similarities, the absolute dissimilarities delta_ij depend on the value of personally chosen z. This is the case where the non-metric MDS makes most sense.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="solutions.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#nonmetric MDS</span></span>
-<span id="cb18-2"><a href="solutions.html#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co">#2D</span></span>
-<span id="cb18-3"><a href="solutions.html#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb18-4"><a href="solutions.html#cb18-4" aria-hidden="true" tabindex="-1"></a>letter.nmds2 <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist, <span class="at">ndim=</span><span class="dv">2</span>, <span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>)</span>
-<span id="cb18-5"><a href="solutions.html#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(letter.nmds2,<span class="at">asp=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="solutions.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#nonmetric MDS</span></span>
+<span id="cb10-2"><a href="solutions.html#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#2D</span></span>
+<span id="cb10-3"><a href="solutions.html#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb10-4"><a href="solutions.html#cb10-4" aria-hidden="true" tabindex="-1"></a>letter.nmds2 <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist, <span class="at">ndim=</span><span class="dv">2</span>, <span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>)</span>
+<span id="cb10-5"><a href="solutions.html#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(letter.nmds2,<span class="at">asp=</span><span class="dv">1</span>)</span></code></pre></div>
 <p><img src="main_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="solutions.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(letter.nmds2,<span class="at">plot.type=</span><span class="st">&quot;Shepard&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="solutions.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(letter.nmds2,<span class="at">plot.type=</span><span class="st">&quot;Shepard&quot;</span>)</span></code></pre></div>
 <p><img src="main_files/figure-html/unnamed-chunk-14-2.png" width="672" /></p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="solutions.html#cb20-1" aria-hidden="true" tabindex="-1"></a>letter.nmds2<span class="sc">$</span>stress</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="solutions.html#cb12-1" aria-hidden="true" tabindex="-1"></a>letter.nmds2<span class="sc">$</span>stress</span></code></pre></div>
 <pre><code>## [1] 0.05971</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="solutions.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Kruskal (1964) gave following advise about stress values based on his experience:</span></span>
-<span id="cb22-2"><a href="solutions.html#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Stress Goodness-of-fit</span></span>
-<span id="cb22-3"><a href="solutions.html#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.200  poor</span></span>
-<span id="cb22-4"><a href="solutions.html#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.100  fair</span></span>
-<span id="cb22-5"><a href="solutions.html#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.050  good</span></span>
-<span id="cb22-6"><a href="solutions.html#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.025  excellent</span></span>
-<span id="cb22-7"><a href="solutions.html#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.000  perfect</span></span>
-<span id="cb22-8"><a href="solutions.html#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># More recent articles caution against using a table like this since acceptable values of stress depends on the quality of the distance matrix and the number of objects in that matrix.</span></span>
-<span id="cb22-9"><a href="solutions.html#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-10"><a href="solutions.html#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co">#3D</span></span>
-<span id="cb22-11"><a href="solutions.html#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb22-12"><a href="solutions.html#cb22-12" aria-hidden="true" tabindex="-1"></a>letter.nmds3 <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist, <span class="at">ndim=</span><span class="dv">3</span>, <span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>)</span>
-<span id="cb22-13"><a href="solutions.html#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgl)</span></code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;rgl&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:plotrix&#39;:
-## 
-##     mtext3d</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="solutions.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot3d(letter.nmds3$conf[,1],letter.nmds3$conf[,2],</span></span>
-<span id="cb25-2"><a href="solutions.html#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co">#        letter.nmds3$conf[,3],type=&quot;&quot;,</span></span>
-<span id="cb25-3"><a href="solutions.html#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">#        xlab=&quot;Axis 1&quot;,ylab=&quot;Axis 2&quot;,zlab=&quot;Axis 3&quot;,asp=1)</span></span>
-<span id="cb25-4"><a href="solutions.html#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">text3d</span>(letter.nmds3<span class="sc">$</span>conf[,<span class="dv">1</span>],letter.nmds3<span class="sc">$</span>conf[,<span class="dv">2</span>],</span>
-<span id="cb25-5"><a href="solutions.html#cb25-5" aria-hidden="true" tabindex="-1"></a>       letter.nmds3<span class="sc">$</span>conf[,<span class="dv">3</span>],<span class="at">texts=</span><span class="fu">names</span>(letter.dist),<span class="at">asp=</span><span class="dv">1</span>)</span>
-<span id="cb25-6"><a href="solutions.html#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(letter.nmds3,<span class="at">plot.type=</span><span class="st">&quot;Shepard&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="solutions.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Kruskal (1964) gave following advise about stress values based on his experience:</span></span>
+<span id="cb14-2"><a href="solutions.html#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Stress Goodness-of-fit</span></span>
+<span id="cb14-3"><a href="solutions.html#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.200  poor</span></span>
+<span id="cb14-4"><a href="solutions.html#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.100  fair</span></span>
+<span id="cb14-5"><a href="solutions.html#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.050  good</span></span>
+<span id="cb14-6"><a href="solutions.html#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.025  excellent</span></span>
+<span id="cb14-7"><a href="solutions.html#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.000  perfect</span></span>
+<span id="cb14-8"><a href="solutions.html#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># More recent articles caution against using a table like this since acceptable values of stress depends on the quality of the distance matrix and the number of objects in that matrix.</span></span>
+<span id="cb14-9"><a href="solutions.html#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="solutions.html#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#3D</span></span>
+<span id="cb14-11"><a href="solutions.html#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb14-12"><a href="solutions.html#cb14-12" aria-hidden="true" tabindex="-1"></a>letter.nmds3 <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist, <span class="at">ndim=</span><span class="dv">3</span>, <span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>)</span>
+<span id="cb14-13"><a href="solutions.html#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgl)</span>
+<span id="cb14-14"><a href="solutions.html#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co"># plot3d(letter.nmds3$conf[,1],letter.nmds3$conf[,2],</span></span>
+<span id="cb14-15"><a href="solutions.html#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#        letter.nmds3$conf[,3],type=&quot;&quot;,</span></span>
+<span id="cb14-16"><a href="solutions.html#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#        xlab=&quot;Axis 1&quot;,ylab=&quot;Axis 2&quot;,zlab=&quot;Axis 3&quot;,asp=1)</span></span>
+<span id="cb14-17"><a href="solutions.html#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="fu">text3d</span>(letter.nmds3<span class="sc">$</span>conf[,<span class="dv">1</span>],letter.nmds3<span class="sc">$</span>conf[,<span class="dv">2</span>],</span>
+<span id="cb14-18"><a href="solutions.html#cb14-18" aria-hidden="true" tabindex="-1"></a>       letter.nmds3<span class="sc">$</span>conf[,<span class="dv">3</span>],<span class="at">texts=</span><span class="fu">names</span>(letter.dist),<span class="at">asp=</span><span class="dv">1</span>)</span>
+<span id="cb14-19"><a href="solutions.html#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(letter.nmds3,<span class="at">plot.type=</span><span class="st">&quot;Shepard&quot;</span>)</span></code></pre></div>
 <p><img src="main_files/figure-html/unnamed-chunk-14-3.png" width="672" /></p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="solutions.html#cb26-1" aria-hidden="true" tabindex="-1"></a>letter.nmds3<span class="sc">$</span>stress</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="solutions.html#cb15-1" aria-hidden="true" tabindex="-1"></a>letter.nmds3<span class="sc">$</span>stress</span></code></pre></div>
 <pre><code>## [1] 0.01768</code></pre>
 <ol start="4" style="list-style-type: lower-alpha">
 <li></li>
 </ol>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="solutions.html#cb28-1" aria-hidden="true" tabindex="-1"></a>N_dim <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>(<span class="fu">nrow</span>(letter)<span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb28-2"><a href="solutions.html#cb28-2" aria-hidden="true" tabindex="-1"></a>letter.nmds <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow=</span><span class="fu">length</span>(N_dim),<span class="at">ncol=</span><span class="dv">2</span>)</span>
-<span id="cb28-3"><a href="solutions.html#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> N_dim){</span>
-<span id="cb28-4"><a href="solutions.html#cb28-4" aria-hidden="true" tabindex="-1"></a>  letter.nmds[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> i</span>
-<span id="cb28-5"><a href="solutions.html#cb28-5" aria-hidden="true" tabindex="-1"></a>  letter.nmds[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist, <span class="at">ndim=</span>i, <span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>)<span class="sc">$</span>stress </span>
-<span id="cb28-6"><a href="solutions.html#cb28-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb28-7"><a href="solutions.html#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(letter.nmds, <span class="at">type=</span><span class="st">&quot;b&quot;</span>, <span class="at">main=</span><span class="st">&quot;scree plot&quot;</span>, </span>
-<span id="cb28-8"><a href="solutions.html#cb28-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;number of dimensions&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;stress-1&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="solutions.html#cb17-1" aria-hidden="true" tabindex="-1"></a>N_dim <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>(<span class="fu">nrow</span>(letter)<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb17-2"><a href="solutions.html#cb17-2" aria-hidden="true" tabindex="-1"></a>letter.nmds <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow=</span><span class="fu">length</span>(N_dim),<span class="at">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb17-3"><a href="solutions.html#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> N_dim){</span>
+<span id="cb17-4"><a href="solutions.html#cb17-4" aria-hidden="true" tabindex="-1"></a>  letter.nmds[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> i</span>
+<span id="cb17-5"><a href="solutions.html#cb17-5" aria-hidden="true" tabindex="-1"></a>  letter.nmds[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist, <span class="at">ndim=</span>i, <span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>)<span class="sc">$</span>stress </span>
+<span id="cb17-6"><a href="solutions.html#cb17-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-7"><a href="solutions.html#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(letter.nmds, <span class="at">type=</span><span class="st">&quot;b&quot;</span>, <span class="at">main=</span><span class="st">&quot;scree plot&quot;</span>, </span>
+<span id="cb17-8"><a href="solutions.html#cb17-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;number of dimensions&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;stress-1&quot;</span>)</span></code></pre></div>
 <p><img src="main_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <p>The scree plot suggests that using three dimensions could give a relatively small stress value.</p>
 <ol start="5" style="list-style-type: lower-alpha">
 <li><p>Based on the 3D plot in (c), one might argue that C, D, G, Q forms a cluster and H, M, N, W forms another cluster.</p></li>
 <li><p>When converting confusion to distance, we have introduced the parameter z (maximum value to be subtracted from). Now we will create a function to investigate the effect of z.</p></li>
 </ol>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="solutions.html#cb29-1" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">max</span>(letter)<span class="sc">+</span><span class="dv">1</span>, <span class="at">by=</span><span class="dv">1</span>, <span class="at">length.out=</span><span class="dv">100</span>)</span>
-<span id="cb29-2"><a href="solutions.html#cb29-2" aria-hidden="true" tabindex="-1"></a>letter.z <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow=</span><span class="fu">length</span>(Z),<span class="at">ncol=</span><span class="dv">2</span>)</span>
-<span id="cb29-3"><a href="solutions.html#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(Z)){</span>
-<span id="cb29-4"><a href="solutions.html#cb29-4" aria-hidden="true" tabindex="-1"></a>  letter.dist <span class="ot">&lt;-</span> <span class="fu">sim2diss</span>(letter,<span class="at">method=</span>Z[i])</span>
-<span id="cb29-5"><a href="solutions.html#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb29-6"><a href="solutions.html#cb29-6" aria-hidden="true" tabindex="-1"></a>  letter.z[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> Z[i]</span>
-<span id="cb29-7"><a href="solutions.html#cb29-7" aria-hidden="true" tabindex="-1"></a>  letter.z[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist, <span class="at">ndim=</span><span class="dv">3</span>, <span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>)<span class="sc">$</span>stress </span>
-<span id="cb29-8"><a href="solutions.html#cb29-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb29-9"><a href="solutions.html#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(letter.z, <span class="at">xlab=</span><span class="st">&quot;integer z&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;stress-1&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="solutions.html#cb18-1" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">max</span>(letter)<span class="sc">+</span><span class="dv">1</span>, <span class="at">by=</span><span class="dv">1</span>, <span class="at">length.out=</span><span class="dv">100</span>)</span>
+<span id="cb18-2"><a href="solutions.html#cb18-2" aria-hidden="true" tabindex="-1"></a>letter.z <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow=</span><span class="fu">length</span>(Z),<span class="at">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb18-3"><a href="solutions.html#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(Z)){</span>
+<span id="cb18-4"><a href="solutions.html#cb18-4" aria-hidden="true" tabindex="-1"></a>  letter.dist <span class="ot">&lt;-</span> <span class="fu">sim2diss</span>(letter,<span class="at">method=</span>Z[i])</span>
+<span id="cb18-5"><a href="solutions.html#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb18-6"><a href="solutions.html#cb18-6" aria-hidden="true" tabindex="-1"></a>  letter.z[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> Z[i]</span>
+<span id="cb18-7"><a href="solutions.html#cb18-7" aria-hidden="true" tabindex="-1"></a>  letter.z[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist, <span class="at">ndim=</span><span class="dv">3</span>, <span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>)<span class="sc">$</span>stress </span>
+<span id="cb18-8"><a href="solutions.html#cb18-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-9"><a href="solutions.html#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(letter.z, <span class="at">xlab=</span><span class="st">&quot;integer z&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;stress-1&quot;</span>)</span></code></pre></div>
 <p><img src="main_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <p>It is clear that z has a large influence on the stress value.</p>
 <ol start="7" style="list-style-type: lower-alpha">
 <li>To test the sensitivity to initial configuration, we need to change the current way of initialisation, which is classical MDS by default. Specially, we need to use the argument: <code>init="random"</code></li>
 </ol>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="solutions.html#cb30-1" aria-hidden="true" tabindex="-1"></a>Seed <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
-<span id="cb30-2"><a href="solutions.html#cb30-2" aria-hidden="true" tabindex="-1"></a>letter.seed <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow=</span><span class="fu">length</span>(Seed),<span class="at">ncol=</span><span class="dv">1</span>)</span>
-<span id="cb30-3"><a href="solutions.html#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> Seed){</span>
-<span id="cb30-4"><a href="solutions.html#cb30-4" aria-hidden="true" tabindex="-1"></a>  letter.dist <span class="ot">&lt;-</span> <span class="fu">sim2diss</span>(letter,<span class="at">method=</span><span class="fu">max</span>(letter)<span class="sc">+</span><span class="dv">1</span>)</span>
-<span id="cb30-5"><a href="solutions.html#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(i)</span>
-<span id="cb30-6"><a href="solutions.html#cb30-6" aria-hidden="true" tabindex="-1"></a>  letter.seed[i] <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist,<span class="at">ndim=</span><span class="dv">3</span>,<span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>,<span class="at">init=</span><span class="st">&quot;random&quot;</span>)<span class="sc">$</span>stress </span>
-<span id="cb30-7"><a href="solutions.html#cb30-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb30-8"><a href="solutions.html#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(letter.seed)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="solutions.html#cb19-1" aria-hidden="true" tabindex="-1"></a>Seed <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
+<span id="cb19-2"><a href="solutions.html#cb19-2" aria-hidden="true" tabindex="-1"></a>letter.seed <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow=</span><span class="fu">length</span>(Seed),<span class="at">ncol=</span><span class="dv">1</span>)</span>
+<span id="cb19-3"><a href="solutions.html#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> Seed){</span>
+<span id="cb19-4"><a href="solutions.html#cb19-4" aria-hidden="true" tabindex="-1"></a>  letter.dist <span class="ot">&lt;-</span> <span class="fu">sim2diss</span>(letter,<span class="at">method=</span><span class="fu">max</span>(letter)<span class="sc">+</span><span class="dv">1</span>)</span>
+<span id="cb19-5"><a href="solutions.html#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(i)</span>
+<span id="cb19-6"><a href="solutions.html#cb19-6" aria-hidden="true" tabindex="-1"></a>  letter.seed[i] <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist,<span class="at">ndim=</span><span class="dv">3</span>,<span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>,<span class="at">init=</span><span class="st">&quot;random&quot;</span>)<span class="sc">$</span>stress </span>
+<span id="cb19-7"><a href="solutions.html#cb19-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-8"><a href="solutions.html#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(letter.seed)</span></code></pre></div>
 <p><img src="main_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 </div>
 <div id="task-3" class="section level2 hasAnchor" number="5.3">
@@ -291,7 +273,7 @@ The plot is quite similar to the result obtained from metric MDS, except that th
 <ol style="list-style-type: lower-alpha">
 <li>As the variables have different variances, it would be better to use standardised variables when computing the pairwise distances.</li>
 </ol>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="solutions.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(employ,<span class="dv">2</span>,var)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="solutions.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(employ,<span class="dv">2</span>,var)</span></code></pre></div>
 <pre><code>##    AGRIC   MINING     MANU    POWER   CONSTR  SERVICE  FINANCE   SOCIAL 
 ## 241.6958   0.9410  49.1087   0.1415   2.7080  20.9329   7.8768  46.6426 
 ##    TRANS 
@@ -299,98 +281,11 @@ The plot is quite similar to the result obtained from metric MDS, except that th
 <ol start="2" style="list-style-type: lower-alpha">
 <li></li>
 </ol>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="solutions.html#cb33-1" aria-hidden="true" tabindex="-1"></a>employ.sd <span class="ot">&lt;-</span> <span class="fu">scale</span>(employ)</span>
-<span id="cb33-2"><a href="solutions.html#cb33-2" aria-hidden="true" tabindex="-1"></a>employ.dist <span class="ot">&lt;-</span> <span class="fu">dist</span>(employ.sd)</span>
-<span id="cb33-3"><a href="solutions.html#cb33-3" aria-hidden="true" tabindex="-1"></a>employ.dist <span class="co">#to visualise countries as data points</span></span></code></pre></div>
-<pre><code>##            Belgium Denmark France WGerm Ireland Italy Luxem Nether    UK
-## Denmark      1.951                                                      
-## France       1.479   2.283                                              
-## WGerm        2.036   3.075  1.780                                       
-## Ireland      2.645   3.266  2.220 2.819                                 
-## Italy        2.807   3.172  2.098 2.893   2.923                         
-## Luxem        2.812   4.127  2.598 2.529   3.347 3.049                   
-## Nether       1.627   1.739  1.754 3.132   2.915 2.919 3.756             
-## UK           1.858   3.093  2.238 1.929   2.504 3.835 3.123  2.794      
-## Austria      2.257   3.592  1.943 2.238   2.128 3.018 2.743  2.711 2.289
-## Finland      1.807   2.419  2.091 2.332   1.982 3.447 3.698  2.215 1.834
-## Greece       4.326   4.152  3.629 4.160   2.990 3.253 4.488  4.385 4.940
-## Norway       2.006   2.084  2.926 3.404   3.232 3.418 3.961  2.288 3.265
-## Portugal     3.184   3.115  2.255 2.841   2.386 1.843 3.653  3.286 3.848
-## Spain        4.123   4.238  3.021 3.794   4.265 3.505 3.971  3.806 4.810
-## Sweden       1.631   1.135  2.100 2.345   2.942 3.318 3.834  2.081 2.195
-## Switz        2.737   3.701  1.996 2.192   3.521 2.350 3.243  3.119 3.422
-## Turkey       8.084   7.456  7.364 7.471   6.517 7.180 8.102  8.292 8.129
-## Bulgaria     3.906   4.152  3.411 2.726   3.422 3.124 3.298  4.585 4.031
-## Czech        4.106   4.974  3.766 2.956   3.592 3.975 2.876  4.855 3.673
-## EGerm        4.076   5.188  4.317 3.092   4.299 4.770 3.421  5.143 3.483
-## Hungary      4.897   5.823  4.767 4.275   3.775 5.338 4.149  5.459 4.067
-## Poland       4.291   4.585  3.744 3.476   3.159 3.669 3.386  4.771 4.254
-## Romania      5.010   5.171  4.028 3.764   3.998 3.683 3.922  5.384 5.063
-## USSR         4.210   3.924  4.222 4.049   4.102 3.911 4.447  4.486 4.745
-## Yugoslavia   6.451   6.457  5.624 5.803   5.274 6.672 6.361  6.639 6.172
-##            Austria Finland Greece Norway Portugal Spain Sweden Switz Turkey
-## Denmark                                                                    
-## France                                                                     
-## WGerm                                                                      
-## Ireland                                                                    
-## Italy                                                                      
-## Luxem                                                                      
-## Nether                                                                     
-## UK                                                                         
-## Austria                                                                    
-## Finland      1.887                                                         
-## Greece       3.825   3.788                                                 
-## Norway       3.124   2.201  4.115                                          
-## Portugal     3.002   2.997  1.801  3.555                                   
-## Spain        3.479   4.175  3.722  4.727    3.120                          
-## Sweden       3.238   1.937  4.365  2.349    3.188 4.494                    
-## Switz        2.395   3.222  4.231  3.944    2.784 3.025  3.497             
-## Turkey       8.048   7.531  5.019  8.207    5.710 7.601  7.439 8.119       
-## Bulgaria     3.501   3.678  3.096  4.111    2.557 3.990  3.848 3.694  6.350
-## Czech        3.034   3.803  4.358  4.543    3.856 4.452  4.478 4.037  7.844
-## EGerm        3.443   3.887  5.528  4.452    4.874 5.574  4.501 4.460  8.974
-## Hungary      3.430   4.039  5.032  5.037    4.985 5.571  5.305 5.356  8.434
-## Poland       3.460   3.795  2.812  4.324    2.937 4.039  4.376 4.402  6.243
-## Romania      4.191   4.722  3.008  5.442    2.822 3.576  5.004 4.193  5.719
-## USSR         4.145   3.795  3.541  3.250    3.526 4.663  4.015 4.807  7.339
-## Yugoslavia   5.821   5.730  4.733  7.102    5.175 5.183  6.284 6.350  5.185
-##            Bulgaria Czech EGerm Hungary Poland Romania  USSR
-## Denmark                                                     
-## France                                                      
-## WGerm                                                       
-## Ireland                                                     
-## Italy                                                       
-## Luxem                                                       
-## Nether                                                      
-## UK                                                          
-## Austria                                                     
-## Finland                                                     
-## Greece                                                      
-## Norway                                                      
-## Portugal                                                    
-## Spain                                                       
-## Sweden                                                      
-## Switz                                                       
-## Turkey                                                      
-## Bulgaria                                                    
-## Czech         2.093                                         
-## EGerm         3.173 1.843                                   
-## Hungary       3.829 2.224 2.737                             
-## Poland        1.537 1.972 3.467   2.994                     
-## Romania       1.882 2.936 4.536   4.439  1.926              
-## USSR          2.459 3.326 3.869   4.241  2.585   3.763      
-## Yugoslavia    5.872 6.407 7.448   6.563  5.422   5.099 7.024</code></pre>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="solutions.html#cb35-1" aria-hidden="true" tabindex="-1"></a>employ.dist.var <span class="ot">&lt;-</span> <span class="fu">dist</span>(<span class="fu">t</span>(employ.sd))</span>
-<span id="cb35-2"><a href="solutions.html#cb35-2" aria-hidden="true" tabindex="-1"></a>employ.dist.var <span class="co">#to visualise variables as data points</span></span></code></pre></div>
-<pre><code>##         AGRIC MINING  MANU POWER CONSTR SERVICE FINANCE SOCIAL
-## MINING  6.943                                                 
-## MANU    9.141  5.267                                          
-## POWER   8.367  5.452 5.544                                    
-## CONSTR  8.770  7.161 5.028 6.856                              
-## SERVICE 9.319  8.356 6.309 6.317  5.674                       
-## FINANCE 7.810  8.493 7.602 6.671  7.013   5.632               
-## SOCIAL  9.346  8.003 6.503 6.586  6.488   4.625   6.680       
-## TRANS   8.846  6.494 5.698 5.589  5.533   6.374   7.893  4.648</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="solutions.html#cb22-1" aria-hidden="true" tabindex="-1"></a>employ.sd <span class="ot">&lt;-</span> <span class="fu">scale</span>(employ)</span>
+<span id="cb22-2"><a href="solutions.html#cb22-2" aria-hidden="true" tabindex="-1"></a>employ.dist <span class="ot">&lt;-</span> <span class="fu">dist</span>(employ.sd)</span>
+<span id="cb22-3"><a href="solutions.html#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># employ.dist #to visualise countries as data points</span></span>
+<span id="cb22-4"><a href="solutions.html#cb22-4" aria-hidden="true" tabindex="-1"></a>employ.dist.var <span class="ot">&lt;-</span> <span class="fu">dist</span>(<span class="fu">t</span>(employ.sd))</span>
+<span id="cb22-5"><a href="solutions.html#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># employ.dist.var #to visualise variables as data points</span></span></code></pre></div>
 <ol start="3" style="list-style-type: lower-alpha">
 <li><p>As we have created the distance matrix directly from the data, metric MDS would be a better choice.</p></li>
 <li><p>There are three types of metric MDS covered in the lecture.</p></li>
@@ -398,21 +293,21 @@ The plot is quite similar to the result obtained from metric MDS, except that th
 <p>Classical MDS (<code>cmdscale</code>) is omitted as it is equivalent to PCA (check that!)</p>
 <p>Metric MDS computed using <code>mds</code> are explained in Task 2. The steps for this task are similar and hence details are omitted.</p>
 <p>There are a few differences when using Sammon mapping, which are explained below.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="solutions.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Sammon</span></span>
-<span id="cb37-2"><a href="solutions.html#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb37-3"><a href="solutions.html#cb37-3" aria-hidden="true" tabindex="-1"></a>employ.sm <span class="ot">&lt;-</span> <span class="fu">sammon</span>(employ.dist.var, <span class="at">k=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="solutions.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Sammon</span></span>
+<span id="cb23-2"><a href="solutions.html#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb23-3"><a href="solutions.html#cb23-3" aria-hidden="true" tabindex="-1"></a>employ.sm <span class="ot">&lt;-</span> <span class="fu">sammon</span>(employ.dist.var, <span class="at">k=</span><span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## Initial stress        : 0.14054
 ## stress after  10 iters: 0.05042, magic = 0.500
 ## stress after  20 iters: 0.05023, magic = 0.500
 ## stress after  30 iters: 0.05019, magic = 0.500</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="solutions.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(employ.sm<span class="sc">$</span>points, <span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Axis 1&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Axis 2&quot;</span>,<span class="at">asp=</span><span class="dv">1</span>)</span>
-<span id="cb39-2"><a href="solutions.html#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(employ.sm<span class="sc">$</span>points, <span class="at">labels=</span><span class="fu">names</span>(employ.dist.var))</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="solutions.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(employ.sm<span class="sc">$</span>points, <span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Axis 1&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Axis 2&quot;</span>,<span class="at">asp=</span><span class="dv">1</span>)</span>
+<span id="cb25-2"><a href="solutions.html#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(employ.sm<span class="sc">$</span>points, <span class="at">labels=</span><span class="fu">names</span>(employ.dist.var))</span></code></pre></div>
 <p><img src="main_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <p>As <code>sammon</code> is not from the <code>smacof</code> library, we cannot easily plot the Shepard diagram by setting <code>plot.type="Shepard"</code>. Instead, an additional command <code>Shepard</code> is needed to calculate</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="solutions.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">as.vector</span>(employ.dist.var),<span class="fu">as.vector</span>(<span class="fu">dist</span>(employ.sm<span class="sc">$</span>points)),<span class="at">pch=</span><span class="dv">16</span>,</span>
-<span id="cb40-2"><a href="solutions.html#cb40-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Dissimilarities&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Configuration Distances&quot;</span>)</span>
-<span id="cb40-3"><a href="solutions.html#cb40-3" aria-hidden="true" tabindex="-1"></a>employ.sm.fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">as.vector</span>(<span class="fu">dist</span>(employ.sm<span class="sc">$</span>points))<span class="sc">~</span><span class="fu">as.vector</span>(employ.dist.var))</span>
-<span id="cb40-4"><a href="solutions.html#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(employ.sm.fit,<span class="at">col=</span><span class="st">&quot;red&quot;</span>,<span class="at">lty=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="solutions.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">as.vector</span>(employ.dist.var),<span class="fu">as.vector</span>(<span class="fu">dist</span>(employ.sm<span class="sc">$</span>points)),<span class="at">pch=</span><span class="dv">16</span>,</span>
+<span id="cb26-2"><a href="solutions.html#cb26-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Dissimilarities&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Configuration Distances&quot;</span>)</span>
+<span id="cb26-3"><a href="solutions.html#cb26-3" aria-hidden="true" tabindex="-1"></a>employ.sm.fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">as.vector</span>(<span class="fu">dist</span>(employ.sm<span class="sc">$</span>points))<span class="sc">~</span><span class="fu">as.vector</span>(employ.dist.var))</span>
+<span id="cb26-4"><a href="solutions.html#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(employ.sm.fit,<span class="at">col=</span><span class="st">&quot;red&quot;</span>,<span class="at">lty=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="main_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <ol start="5" style="list-style-type: lower-alpha">
 <li></li>

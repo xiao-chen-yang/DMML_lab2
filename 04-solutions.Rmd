@@ -3,7 +3,7 @@
 ## Task 1
 
 The steps for implementing Sammon mapping is similar to implementing metric MDS, that is, we need to first convert the inter-correlations into a dissimilarity matrix and then apply the `sammon` command.
-```{r, fig.height=4,fig.width=7,fig.align='center'}
+```{r, fig.height=4,fig.width=7,fig.align='center', warning=FALSE, message=FALSE}
 library(MASS);library(smacof)
 crime.dist <- sim2diss(crimes, method="corr")
 set.seed(1)
@@ -27,7 +27,7 @@ letter.dist
 
 Because we have deduced dissimilarities from similarities, the absolute dissimilarities delta_ij depend on the value of personally chosen z. This is the case where the non-metric MDS makes most sense. 
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 #nonmetric MDS
 #2D
 set.seed(1)
@@ -114,9 +114,9 @@ apply(employ,2,var)
 ```{r}
 employ.sd <- scale(employ)
 employ.dist <- dist(employ.sd)
-employ.dist #to visualise countries as data points
+# employ.dist #to visualise countries as data points
 employ.dist.var <- dist(t(employ.sd))
-employ.dist.var #to visualise variables as data points
+# employ.dist.var #to visualise variables as data points
 ```
 
 (c) As we have created the distance matrix directly from the data, metric MDS would be a better choice. 
