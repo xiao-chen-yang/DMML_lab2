@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5 Solutions | STATS5099 Data Mining and Machine Learning</title>
   <meta name="description" content="5 Solutions | STATS5099 Data Mining and Machine Learning" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 Solutions | STATS5099 Data Mining and Machine Learning" />
   <meta property="og:type" content="book" />
@@ -117,6 +117,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 <link rel="stylesheet" href="include/webex.css" type="text/css" />
@@ -163,117 +167,124 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">5</span> Solutions<a href="solutions.html#solutions" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="task-1" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Task 1<a href="solutions.html#task-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The steps for implementing Sammon mapping is similar to implementing metric MDS, that is, we need to first convert the inter-correlations into a dissimilarity matrix and then apply the <code>sammon</code> command.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="solutions.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS);<span class="fu">library</span>(smacof)</span>
-<span id="cb5-2"><a href="solutions.html#cb5-2" aria-hidden="true" tabindex="-1"></a>crime.dist <span class="ot">&lt;-</span> <span class="fu">sim2diss</span>(crimes, <span class="at">method=</span><span class="st">&quot;corr&quot;</span>)</span>
-<span id="cb5-3"><a href="solutions.html#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb5-4"><a href="solutions.html#cb5-4" aria-hidden="true" tabindex="-1"></a>crime.sm<span class="ot">&lt;-</span><span class="fu">sammon</span>(crime.dist,<span class="at">k=</span><span class="dv">2</span>)</span></code></pre></div>
+<p>The steps for implementing Sammon mapping are similar to implementing metric MDS, that is, we need to first convert the inter-correlations into a dissimilarity matrix and then apply the <code>sammon</code> command.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="solutions.html#cb6-1" tabindex="-1"></a><span class="fu">library</span>(MASS);<span class="fu">library</span>(smacof)</span>
+<span id="cb6-2"><a href="solutions.html#cb6-2" tabindex="-1"></a>crime.dist <span class="ot">&lt;-</span> <span class="fu">sim2diss</span>(crimes, <span class="at">method=</span><span class="st">&quot;corr&quot;</span>)</span>
+<span id="cb6-3"><a href="solutions.html#cb6-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb6-4"><a href="solutions.html#cb6-4" tabindex="-1"></a>crime.sm<span class="ot">&lt;-</span><span class="fu">sammon</span>(crime.dist,<span class="at">k=</span><span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## Initial stress        : 0.06663
 ## stress after  10 iters: 0.02557, magic = 0.500
 ## stress after  20 iters: 0.02554, magic = 0.500</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="solutions.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(crime.sm<span class="sc">$</span>points,<span class="at">type=</span><span class="st">&quot;n&quot;</span>,<span class="at">asp=</span><span class="dv">1</span>)</span>
-<span id="cb7-2"><a href="solutions.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(crime.sm<span class="sc">$</span>points,<span class="at">labels=</span><span class="fu">names</span>(crimes))</span></code></pre></div>
-<p><img src="main_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" />
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="solutions.html#cb8-1" tabindex="-1"></a><span class="fu">plot</span>(crime.sm<span class="sc">$</span>points,<span class="at">type=</span><span class="st">&quot;n&quot;</span>,<span class="at">asp=</span><span class="dv">1</span>)</span>
+<span id="cb8-2"><a href="solutions.html#cb8-2" tabindex="-1"></a><span class="fu">text</span>(crime.sm<span class="sc">$</span>points,<span class="at">labels=</span><span class="fu">names</span>(crimes))</span></code></pre></div>
+<p><img src="main_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" />
 The plot is quite similar to the result obtained from metric MDS, except that the distance between Murder and Assault increases slightly.</p>
 </div>
 <div id="task-2" class="section level2 hasAnchor" number="5.2">
 <h2><span class="header-section-number">5.2</span> Task 2<a href="solutions.html#task-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>As this is a similarity matrix (larger values indicate the two letters are more likely to cause confusion and thus more similar), the first step is to convert the data into a dissimilarity matrix.</li>
+<ol style="list-style-type: lower-alpha">
+<li><p>The data is in a format of the proximity matrix rather than the data matrix. Therefore, PCA is not suitable.</p></li>
+<li><p>A larger value indicates that two letters are more likely to cause confusion and thus more similar.</p></li>
+<li><p>As this is a similarity matrix, the first step is to convert the data into a dissimilarity matrix.</p></li>
 </ol>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="solutions.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(smacof)</span>
-<span id="cb8-2"><a href="solutions.html#cb8-2" aria-hidden="true" tabindex="-1"></a>letter <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;letter.csv&quot;</span>, <span class="at">row.names=</span><span class="dv">1</span>)</span>
-<span id="cb8-3"><a href="solutions.html#cb8-3" aria-hidden="true" tabindex="-1"></a>letter.dist <span class="ot">&lt;-</span> <span class="fu">sim2diss</span>(letter, <span class="at">method=</span><span class="fu">max</span>(letter)<span class="sc">+</span><span class="dv">1</span>) <span class="co">#z-s_ij</span></span>
-<span id="cb8-4"><a href="solutions.html#cb8-4" aria-hidden="true" tabindex="-1"></a>letter.dist <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(letter.dist)</span>
-<span id="cb8-5"><a href="solutions.html#cb8-5" aria-hidden="true" tabindex="-1"></a>letter.dist</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="solutions.html#cb9-1" tabindex="-1"></a><span class="fu">library</span>(smacof)</span>
+<span id="cb9-2"><a href="solutions.html#cb9-2" tabindex="-1"></a>letter <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;letter.csv&quot;</span>, <span class="at">row.names=</span><span class="dv">1</span>)</span>
+<span id="cb9-3"><a href="solutions.html#cb9-3" tabindex="-1"></a>letter.dist <span class="ot">&lt;-</span> <span class="fu">sim2diss</span>(letter, <span class="at">method=</span><span class="fu">max</span>(letter)) <span class="co">#z-s_ij</span></span>
+<span id="cb9-4"><a href="solutions.html#cb9-4" tabindex="-1"></a>letter.dist <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(letter.dist)</span>
+<span id="cb9-5"><a href="solutions.html#cb9-5" tabindex="-1"></a>letter.dist</span></code></pre></div>
 <pre><code>##    C  D  G  H  M  N  Q
-## D 16                  
-## G  9 19               
-## H 19 17 18            
-## M 19 18 19  2         
-## N 19 17 20  3  5      
-## Q 12  1 12 20 19 13   
-## W 20 16 19 16  3  8 17</code></pre>
-<p>Because we have deduced dissimilarities from similarities, the absolute dissimilarities delta_ij depend on the value of personally chosen z. This is the case where the non-metric MDS makes most sense.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="solutions.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#nonmetric MDS</span></span>
-<span id="cb10-2"><a href="solutions.html#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#2D</span></span>
-<span id="cb10-3"><a href="solutions.html#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb10-4"><a href="solutions.html#cb10-4" aria-hidden="true" tabindex="-1"></a>letter.nmds2 <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist, <span class="at">ndim=</span><span class="dv">2</span>, <span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>)</span>
-<span id="cb10-5"><a href="solutions.html#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(letter.nmds2,<span class="at">asp=</span><span class="dv">1</span>)</span></code></pre></div>
-<p><img src="main_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="solutions.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(letter.nmds2,<span class="at">plot.type=</span><span class="st">&quot;Shepard&quot;</span>)</span></code></pre></div>
-<p><img src="main_files/figure-html/unnamed-chunk-14-2.png" width="672" /></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="solutions.html#cb12-1" aria-hidden="true" tabindex="-1"></a>letter.nmds2<span class="sc">$</span>stress</span></code></pre></div>
-<pre><code>## [1] 0.05971</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="solutions.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Kruskal (1964) gave following advise about stress values based on his experience:</span></span>
-<span id="cb14-2"><a href="solutions.html#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Stress Goodness-of-fit</span></span>
-<span id="cb14-3"><a href="solutions.html#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.200  poor</span></span>
-<span id="cb14-4"><a href="solutions.html#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.100  fair</span></span>
-<span id="cb14-5"><a href="solutions.html#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.050  good</span></span>
-<span id="cb14-6"><a href="solutions.html#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.025  excellent</span></span>
-<span id="cb14-7"><a href="solutions.html#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.000  perfect</span></span>
-<span id="cb14-8"><a href="solutions.html#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># More recent articles caution against using a table like this since acceptable values of stress depends on the quality of the distance matrix and the number of objects in that matrix.</span></span>
-<span id="cb14-9"><a href="solutions.html#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="solutions.html#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#3D</span></span>
-<span id="cb14-11"><a href="solutions.html#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb14-12"><a href="solutions.html#cb14-12" aria-hidden="true" tabindex="-1"></a>letter.nmds3 <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist, <span class="at">ndim=</span><span class="dv">3</span>, <span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>)</span>
-<span id="cb14-13"><a href="solutions.html#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgl)</span>
-<span id="cb14-14"><a href="solutions.html#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co"># plot3d(letter.nmds3$conf[,1],letter.nmds3$conf[,2],</span></span>
-<span id="cb14-15"><a href="solutions.html#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#        letter.nmds3$conf[,3],type=&quot;&quot;,</span></span>
-<span id="cb14-16"><a href="solutions.html#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#        xlab=&quot;Axis 1&quot;,ylab=&quot;Axis 2&quot;,zlab=&quot;Axis 3&quot;,asp=1)</span></span>
-<span id="cb14-17"><a href="solutions.html#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="fu">text3d</span>(letter.nmds3<span class="sc">$</span>conf[,<span class="dv">1</span>],letter.nmds3<span class="sc">$</span>conf[,<span class="dv">2</span>],</span>
-<span id="cb14-18"><a href="solutions.html#cb14-18" aria-hidden="true" tabindex="-1"></a>       letter.nmds3<span class="sc">$</span>conf[,<span class="dv">3</span>],<span class="at">texts=</span><span class="fu">names</span>(letter.dist),<span class="at">asp=</span><span class="dv">1</span>)</span>
-<span id="cb14-19"><a href="solutions.html#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(letter.nmds3,<span class="at">plot.type=</span><span class="st">&quot;Shepard&quot;</span>)</span></code></pre></div>
-<p><img src="main_files/figure-html/unnamed-chunk-14-3.png" width="672" /></p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="solutions.html#cb15-1" aria-hidden="true" tabindex="-1"></a>letter.nmds3<span class="sc">$</span>stress</span></code></pre></div>
-<pre><code>## [1] 0.01768</code></pre>
-<ol start="4" style="list-style-type: lower-alpha">
-<li></li>
-</ol>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="solutions.html#cb17-1" aria-hidden="true" tabindex="-1"></a>N_dim <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>(<span class="fu">nrow</span>(letter)<span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb17-2"><a href="solutions.html#cb17-2" aria-hidden="true" tabindex="-1"></a>letter.nmds <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow=</span><span class="fu">length</span>(N_dim),<span class="at">ncol=</span><span class="dv">2</span>)</span>
-<span id="cb17-3"><a href="solutions.html#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> N_dim){</span>
-<span id="cb17-4"><a href="solutions.html#cb17-4" aria-hidden="true" tabindex="-1"></a>  letter.nmds[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> i</span>
-<span id="cb17-5"><a href="solutions.html#cb17-5" aria-hidden="true" tabindex="-1"></a>  letter.nmds[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist, <span class="at">ndim=</span>i, <span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>)<span class="sc">$</span>stress </span>
-<span id="cb17-6"><a href="solutions.html#cb17-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb17-7"><a href="solutions.html#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(letter.nmds, <span class="at">type=</span><span class="st">&quot;b&quot;</span>, <span class="at">main=</span><span class="st">&quot;scree plot&quot;</span>, </span>
-<span id="cb17-8"><a href="solutions.html#cb17-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;number of dimensions&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;stress-1&quot;</span>)</span></code></pre></div>
+## D 15                  
+## G  8 18               
+## H 18 16 17            
+## M 18 17 18  1         
+## N 18 16 19  2  4      
+## Q 11  0 11 19 18 12   
+## W 19 15 18 15  2  7 16</code></pre>
+<p>Because we have deduced dissimilarities from similarities, the absolute dissimilarities <span class="math inline">\(\delta_ij\)</span> depend on the value of personally chosen <span class="math inline">\(z\)</span>. This is the case where the non-metric MDS makes most sense.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="solutions.html#cb11-1" tabindex="-1"></a><span class="co">#nonmetric MDS</span></span>
+<span id="cb11-2"><a href="solutions.html#cb11-2" tabindex="-1"></a><span class="co">#2D</span></span>
+<span id="cb11-3"><a href="solutions.html#cb11-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb11-4"><a href="solutions.html#cb11-4" tabindex="-1"></a>letter.nmds2 <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist, <span class="at">ndim=</span><span class="dv">2</span>, <span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>)</span>
+<span id="cb11-5"><a href="solutions.html#cb11-5" tabindex="-1"></a><span class="fu">plot</span>(letter.nmds2,<span class="at">asp=</span><span class="dv">1</span>)</span></code></pre></div>
 <p><img src="main_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="solutions.html#cb12-1" tabindex="-1"></a><span class="fu">plot</span>(letter.nmds2,<span class="at">plot.type=</span><span class="st">&quot;Shepard&quot;</span>)</span></code></pre></div>
+<p><img src="main_files/figure-html/unnamed-chunk-15-2.png" width="672" /></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="solutions.html#cb13-1" tabindex="-1"></a>letter.nmds2<span class="sc">$</span>stress</span></code></pre></div>
+<pre><code>## [1] 0.05971</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="solutions.html#cb15-1" tabindex="-1"></a><span class="co"># Kruskal (1964) gave following advise about stress values based on his experience:</span></span>
+<span id="cb15-2"><a href="solutions.html#cb15-2" tabindex="-1"></a><span class="co"># Stress Goodness-of-fit</span></span>
+<span id="cb15-3"><a href="solutions.html#cb15-3" tabindex="-1"></a><span class="co"># 0.200  poor</span></span>
+<span id="cb15-4"><a href="solutions.html#cb15-4" tabindex="-1"></a><span class="co"># 0.100  fair</span></span>
+<span id="cb15-5"><a href="solutions.html#cb15-5" tabindex="-1"></a><span class="co"># 0.050  good</span></span>
+<span id="cb15-6"><a href="solutions.html#cb15-6" tabindex="-1"></a><span class="co"># 0.025  excellent</span></span>
+<span id="cb15-7"><a href="solutions.html#cb15-7" tabindex="-1"></a><span class="co"># 0.000  perfect</span></span>
+<span id="cb15-8"><a href="solutions.html#cb15-8" tabindex="-1"></a><span class="co"># More recent articles caution against using a table like this since acceptable values of stress depends on the quality of the distance matrix and the number of objects in that matrix.</span></span></code></pre></div>
+<p>Let's try reducing the data to 3 dimensions.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="solutions.html#cb16-1" tabindex="-1"></a><span class="co">#3D</span></span>
+<span id="cb16-2"><a href="solutions.html#cb16-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb16-3"><a href="solutions.html#cb16-3" tabindex="-1"></a>letter.nmds3 <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist, <span class="at">ndim=</span><span class="dv">3</span>, <span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>)</span>
+<span id="cb16-4"><a href="solutions.html#cb16-4" tabindex="-1"></a><span class="fu">library</span>(rgl)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;rgl&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:plotrix&#39;:
+## 
+##     mtext3d</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="solutions.html#cb19-1" tabindex="-1"></a><span class="co"># plot3d(letter.nmds3$conf[,1],letter.nmds3$conf[,2],</span></span>
+<span id="cb19-2"><a href="solutions.html#cb19-2" tabindex="-1"></a><span class="co">#        letter.nmds3$conf[,3],type=&quot;&quot;,</span></span>
+<span id="cb19-3"><a href="solutions.html#cb19-3" tabindex="-1"></a><span class="co">#        xlab=&quot;Axis 1&quot;,ylab=&quot;Axis 2&quot;,zlab=&quot;Axis 3&quot;,asp=1)</span></span>
+<span id="cb19-4"><a href="solutions.html#cb19-4" tabindex="-1"></a><span class="fu">text3d</span>(letter.nmds3<span class="sc">$</span>conf[,<span class="dv">1</span>],letter.nmds3<span class="sc">$</span>conf[,<span class="dv">2</span>],</span>
+<span id="cb19-5"><a href="solutions.html#cb19-5" tabindex="-1"></a>       letter.nmds3<span class="sc">$</span>conf[,<span class="dv">3</span>],<span class="at">texts=</span><span class="fu">names</span>(letter.dist),<span class="at">asp=</span><span class="dv">1</span>)</span>
+<span id="cb19-6"><a href="solutions.html#cb19-6" tabindex="-1"></a><span class="fu">plot</span>(letter.nmds3,<span class="at">plot.type=</span><span class="st">&quot;Shepard&quot;</span>)</span></code></pre></div>
+<p><img src="main_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="solutions.html#cb20-1" tabindex="-1"></a>letter.nmds3<span class="sc">$</span>stress</span></code></pre></div>
+<pre><code>## [1] 0.01758</code></pre>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>To produce the scree plot, we need to compute the stress value for each dimension.</li>
+</ol>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="solutions.html#cb22-1" tabindex="-1"></a>N_dim <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>(<span class="fu">nrow</span>(letter)<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb22-2"><a href="solutions.html#cb22-2" tabindex="-1"></a>letter.nmds <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow=</span><span class="fu">length</span>(N_dim),<span class="at">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb22-3"><a href="solutions.html#cb22-3" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> N_dim){</span>
+<span id="cb22-4"><a href="solutions.html#cb22-4" tabindex="-1"></a>  letter.nmds[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> i</span>
+<span id="cb22-5"><a href="solutions.html#cb22-5" tabindex="-1"></a>  letter.nmds[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist, <span class="at">ndim=</span>i, <span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>)<span class="sc">$</span>stress </span>
+<span id="cb22-6"><a href="solutions.html#cb22-6" tabindex="-1"></a>}</span>
+<span id="cb22-7"><a href="solutions.html#cb22-7" tabindex="-1"></a><span class="fu">plot</span>(letter.nmds, <span class="at">type=</span><span class="st">&quot;b&quot;</span>, <span class="at">main=</span><span class="st">&quot;scree plot&quot;</span>, </span>
+<span id="cb22-8"><a href="solutions.html#cb22-8" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;number of dimensions&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;stress-1&quot;</span>)</span></code></pre></div>
+<p><img src="main_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <p>The scree plot suggests that using three dimensions could give a relatively small stress value.</p>
 <ol start="5" style="list-style-type: lower-alpha">
 <li><p>Based on the 3D plot in (c), one might argue that C, D, G, Q forms a cluster and H, M, N, W forms another cluster.</p></li>
-<li><p>When converting confusion to distance, we have introduced the parameter z (maximum value to be subtracted from). Now we will create a function to investigate the effect of z.</p></li>
+<li><p>When converting confusion to distance, we have introduced the parameter <span class="math inline">\(z\)</span> (maximum value to be subtracted from). Now we will create a function to investigate the effect of <span class="math inline">\(z\)</span>.</p></li>
 </ol>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="solutions.html#cb18-1" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">max</span>(letter)<span class="sc">+</span><span class="dv">1</span>, <span class="at">by=</span><span class="dv">1</span>, <span class="at">length.out=</span><span class="dv">100</span>)</span>
-<span id="cb18-2"><a href="solutions.html#cb18-2" aria-hidden="true" tabindex="-1"></a>letter.z <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow=</span><span class="fu">length</span>(Z),<span class="at">ncol=</span><span class="dv">2</span>)</span>
-<span id="cb18-3"><a href="solutions.html#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(Z)){</span>
-<span id="cb18-4"><a href="solutions.html#cb18-4" aria-hidden="true" tabindex="-1"></a>  letter.dist <span class="ot">&lt;-</span> <span class="fu">sim2diss</span>(letter,<span class="at">method=</span>Z[i])</span>
-<span id="cb18-5"><a href="solutions.html#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb18-6"><a href="solutions.html#cb18-6" aria-hidden="true" tabindex="-1"></a>  letter.z[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> Z[i]</span>
-<span id="cb18-7"><a href="solutions.html#cb18-7" aria-hidden="true" tabindex="-1"></a>  letter.z[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist, <span class="at">ndim=</span><span class="dv">3</span>, <span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>)<span class="sc">$</span>stress </span>
-<span id="cb18-8"><a href="solutions.html#cb18-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb18-9"><a href="solutions.html#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(letter.z, <span class="at">xlab=</span><span class="st">&quot;integer z&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;stress-1&quot;</span>)</span></code></pre></div>
-<p><img src="main_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<p>It is clear that z has a large influence on the stress value.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="solutions.html#cb23-1" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">max</span>(letter), <span class="at">by=</span><span class="dv">1</span>, <span class="at">length.out=</span><span class="dv">100</span>)</span>
+<span id="cb23-2"><a href="solutions.html#cb23-2" tabindex="-1"></a>letter.z <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow=</span><span class="fu">length</span>(Z), <span class="at">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb23-3"><a href="solutions.html#cb23-3" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(Z)){</span>
+<span id="cb23-4"><a href="solutions.html#cb23-4" tabindex="-1"></a>  letter.dist <span class="ot">&lt;-</span> <span class="fu">sim2diss</span>(letter, <span class="at">method=</span>Z[i])</span>
+<span id="cb23-5"><a href="solutions.html#cb23-5" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb23-6"><a href="solutions.html#cb23-6" tabindex="-1"></a>  letter.z[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> Z[i]</span>
+<span id="cb23-7"><a href="solutions.html#cb23-7" tabindex="-1"></a>  letter.z[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist, <span class="at">ndim=</span><span class="dv">3</span>, <span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>)<span class="sc">$</span>stress </span>
+<span id="cb23-8"><a href="solutions.html#cb23-8" tabindex="-1"></a>}</span>
+<span id="cb23-9"><a href="solutions.html#cb23-9" tabindex="-1"></a><span class="fu">plot</span>(letter.z, <span class="at">xlab=</span><span class="st">&quot;integer z&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;stress-1&quot;</span>)</span></code></pre></div>
+<p><img src="main_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>It is clear that <span class="math inline">\(z\)</span> has a large influence on the stress value.</p>
 <ol start="7" style="list-style-type: lower-alpha">
 <li>To test the sensitivity to initial configuration, we need to change the current way of initialisation, which is classical MDS by default. Specially, we need to use the argument: <code>init="random"</code></li>
 </ol>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="solutions.html#cb19-1" aria-hidden="true" tabindex="-1"></a>Seed <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
-<span id="cb19-2"><a href="solutions.html#cb19-2" aria-hidden="true" tabindex="-1"></a>letter.seed <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow=</span><span class="fu">length</span>(Seed),<span class="at">ncol=</span><span class="dv">1</span>)</span>
-<span id="cb19-3"><a href="solutions.html#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> Seed){</span>
-<span id="cb19-4"><a href="solutions.html#cb19-4" aria-hidden="true" tabindex="-1"></a>  letter.dist <span class="ot">&lt;-</span> <span class="fu">sim2diss</span>(letter,<span class="at">method=</span><span class="fu">max</span>(letter)<span class="sc">+</span><span class="dv">1</span>)</span>
-<span id="cb19-5"><a href="solutions.html#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(i)</span>
-<span id="cb19-6"><a href="solutions.html#cb19-6" aria-hidden="true" tabindex="-1"></a>  letter.seed[i] <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist,<span class="at">ndim=</span><span class="dv">3</span>,<span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>,<span class="at">init=</span><span class="st">&quot;random&quot;</span>)<span class="sc">$</span>stress </span>
-<span id="cb19-7"><a href="solutions.html#cb19-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-8"><a href="solutions.html#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(letter.seed)</span></code></pre></div>
-<p><img src="main_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="solutions.html#cb24-1" tabindex="-1"></a>Seed <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
+<span id="cb24-2"><a href="solutions.html#cb24-2" tabindex="-1"></a>letter.seed <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow=</span><span class="fu">length</span>(Seed), <span class="at">ncol=</span><span class="dv">1</span>)</span>
+<span id="cb24-3"><a href="solutions.html#cb24-3" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> Seed){</span>
+<span id="cb24-4"><a href="solutions.html#cb24-4" tabindex="-1"></a>  letter.dist <span class="ot">&lt;-</span> <span class="fu">sim2diss</span>(letter, <span class="at">method=</span><span class="fu">max</span>(letter))</span>
+<span id="cb24-5"><a href="solutions.html#cb24-5" tabindex="-1"></a>  <span class="fu">set.seed</span>(i)</span>
+<span id="cb24-6"><a href="solutions.html#cb24-6" tabindex="-1"></a>  letter.seed[i] <span class="ot">&lt;-</span> <span class="fu">mds</span>(letter.dist,<span class="at">ndim=</span><span class="dv">3</span>, <span class="at">type=</span><span class="st">&quot;ordinal&quot;</span>, <span class="at">init=</span><span class="st">&quot;random&quot;</span>)<span class="sc">$</span>stress </span>
+<span id="cb24-7"><a href="solutions.html#cb24-7" tabindex="-1"></a>}</span>
+<span id="cb24-8"><a href="solutions.html#cb24-8" tabindex="-1"></a><span class="fu">hist</span>(letter.seed, <span class="at">xlab=</span><span class="st">&quot;stress value&quot;</span>, <span class="at">main=</span><span class="st">&quot;Histogram of stress values computed over 100 random initialisations&quot;</span>)</span></code></pre></div>
+<p><img src="main_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 </div>
 <div id="task-3" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> Task 3<a href="solutions.html#task-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ol style="list-style-type: lower-alpha">
 <li>As the variables have different variances, it would be better to use standardised variables when computing the pairwise distances.</li>
 </ol>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="solutions.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(employ,<span class="dv">2</span>,var)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="solutions.html#cb25-1" tabindex="-1"></a><span class="fu">apply</span>(employ,<span class="dv">2</span>,var)</span></code></pre></div>
 <pre><code>##    AGRIC   MINING     MANU    POWER   CONSTR  SERVICE  FINANCE   SOCIAL 
 ## 241.6958   0.9410  49.1087   0.1415   2.7080  20.9329   7.8768  46.6426 
 ##    TRANS 
@@ -281,41 +292,57 @@ The plot is quite similar to the result obtained from metric MDS, except that th
 <ol start="2" style="list-style-type: lower-alpha">
 <li></li>
 </ol>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="solutions.html#cb22-1" aria-hidden="true" tabindex="-1"></a>employ.sd <span class="ot">&lt;-</span> <span class="fu">scale</span>(employ)</span>
-<span id="cb22-2"><a href="solutions.html#cb22-2" aria-hidden="true" tabindex="-1"></a>employ.dist <span class="ot">&lt;-</span> <span class="fu">dist</span>(employ.sd)</span>
-<span id="cb22-3"><a href="solutions.html#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># employ.dist #to visualise countries as data points</span></span>
-<span id="cb22-4"><a href="solutions.html#cb22-4" aria-hidden="true" tabindex="-1"></a>employ.dist.var <span class="ot">&lt;-</span> <span class="fu">dist</span>(<span class="fu">t</span>(employ.sd))</span>
-<span id="cb22-5"><a href="solutions.html#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># employ.dist.var #to visualise variables as data points</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="solutions.html#cb27-1" tabindex="-1"></a>employ.sd <span class="ot">&lt;-</span> <span class="fu">scale</span>(employ)</span>
+<span id="cb27-2"><a href="solutions.html#cb27-2" tabindex="-1"></a>employ.dist <span class="ot">&lt;-</span> <span class="fu">dist</span>(employ.sd) <span class="co">#to visualise countries as data points</span></span>
+<span id="cb27-3"><a href="solutions.html#cb27-3" tabindex="-1"></a>employ.dist.var <span class="ot">&lt;-</span> <span class="fu">dist</span>(<span class="fu">t</span>(employ.sd)) <span class="co">#to visualise variables as data points</span></span></code></pre></div>
 <ol start="3" style="list-style-type: lower-alpha">
 <li><p>As we have created the distance matrix directly from the data, metric MDS would be a better choice.</p></li>
 <li><p>There are three types of metric MDS covered in the lecture.</p></li>
 </ol>
 <p>Classical MDS (<code>cmdscale</code>) is omitted as it is equivalent to PCA (check that!)</p>
-<p>Metric MDS computed using <code>mds</code> are explained in Task 2. The steps for this task are similar and hence details are omitted.</p>
-<p>There are a few differences when using Sammon mapping, which are explained below.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="solutions.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Sammon</span></span>
-<span id="cb23-2"><a href="solutions.html#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb23-3"><a href="solutions.html#cb23-3" aria-hidden="true" tabindex="-1"></a>employ.sm <span class="ot">&lt;-</span> <span class="fu">sammon</span>(employ.dist.var, <span class="at">k=</span><span class="dv">2</span>)</span></code></pre></div>
-<pre><code>## Initial stress        : 0.14054
-## stress after  10 iters: 0.05042, magic = 0.500
-## stress after  20 iters: 0.05023, magic = 0.500
-## stress after  30 iters: 0.05019, magic = 0.500</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="solutions.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(employ.sm<span class="sc">$</span>points, <span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Axis 1&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Axis 2&quot;</span>,<span class="at">asp=</span><span class="dv">1</span>)</span>
-<span id="cb25-2"><a href="solutions.html#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(employ.sm<span class="sc">$</span>points, <span class="at">labels=</span><span class="fu">names</span>(employ.dist.var))</span></code></pre></div>
-<p><img src="main_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
-<p>As <code>sammon</code> is not from the <code>smacof</code> library, we cannot easily plot the Shepard diagram by setting <code>plot.type="Shepard"</code>. Instead, an additional command <code>Shepard</code> is needed to calculate</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="solutions.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">as.vector</span>(employ.dist.var),<span class="fu">as.vector</span>(<span class="fu">dist</span>(employ.sm<span class="sc">$</span>points)),<span class="at">pch=</span><span class="dv">16</span>,</span>
-<span id="cb26-2"><a href="solutions.html#cb26-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Dissimilarities&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Configuration Distances&quot;</span>)</span>
-<span id="cb26-3"><a href="solutions.html#cb26-3" aria-hidden="true" tabindex="-1"></a>employ.sm.fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">as.vector</span>(<span class="fu">dist</span>(employ.sm<span class="sc">$</span>points))<span class="sc">~</span><span class="fu">as.vector</span>(employ.dist.var))</span>
-<span id="cb26-4"><a href="solutions.html#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(employ.sm.fit,<span class="at">col=</span><span class="st">&quot;red&quot;</span>,<span class="at">lty=</span><span class="dv">2</span>)</span></code></pre></div>
-<p><img src="main_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>Metric MDS can be computed using <code>mds</code>.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="solutions.html#cb28-1" tabindex="-1"></a><span class="fu">library</span>(smacof)</span>
+<span id="cb28-2"><a href="solutions.html#cb28-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb28-3"><a href="solutions.html#cb28-3" tabindex="-1"></a>employ.mds2 <span class="ot">&lt;-</span> <span class="fu">mds</span>(employ.dist, <span class="at">ndim=</span><span class="dv">2</span>, <span class="at">type=</span><span class="st">&quot;interval&quot;</span>)</span>
+<span id="cb28-4"><a href="solutions.html#cb28-4" tabindex="-1"></a><span class="fu">plot</span>(employ.mds2)</span></code></pre></div>
+<p><img src="main_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="solutions.html#cb29-1" tabindex="-1"></a><span class="fu">plot</span>(employ.mds2,<span class="at">plot.type=</span><span class="st">&quot;Shepard&quot;</span>)</span></code></pre></div>
+<p><img src="main_files/figure-html/unnamed-chunk-22-2.png" width="672" /></p>
+<p>The Shepard diagram suggests that a lot of information was lost when using only two dimensions.</p>
+<p>To select the optimal number of dimensions, scree plot is generated.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="solutions.html#cb30-1" tabindex="-1"></a>employ.mds <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow=</span><span class="fu">nrow</span>(employ)<span class="sc">-</span><span class="dv">1</span>,<span class="at">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb30-2"><a href="solutions.html#cb30-2" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(<span class="fu">nrow</span>(employ)<span class="sc">-</span><span class="dv">1</span>)){</span>
+<span id="cb30-3"><a href="solutions.html#cb30-3" tabindex="-1"></a>  employ.mds[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> i</span>
+<span id="cb30-4"><a href="solutions.html#cb30-4" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb30-5"><a href="solutions.html#cb30-5" tabindex="-1"></a>  employ.mds[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">mds</span>(employ.dist, <span class="at">ndim=</span>i, <span class="at">type=</span><span class="st">&quot;interval&quot;</span>)<span class="sc">$</span>stress</span>
+<span id="cb30-6"><a href="solutions.html#cb30-6" tabindex="-1"></a>}</span>
+<span id="cb30-7"><a href="solutions.html#cb30-7" tabindex="-1"></a><span class="fu">plot</span>(employ.mds, <span class="at">type=</span><span class="st">&quot;b&quot;</span>, <span class="at">main=</span><span class="st">&quot;scree plot&quot;</span>, </span>
+<span id="cb30-8"><a href="solutions.html#cb30-8" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;number of dimensions&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;stress&quot;</span>)</span></code></pre></div>
+<p><img src="main_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p>Here is a difficult case where there is no clear cut-off point. Depending on the purpose of the study, 4-8 dimensions seem to be a reasonable range.</p>
+<p>When implementing Sammon mapping, there are a few differences which are explained below.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="solutions.html#cb31-1" tabindex="-1"></a><span class="co">#Sammon</span></span>
+<span id="cb31-2"><a href="solutions.html#cb31-2" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb31-3"><a href="solutions.html#cb31-3" tabindex="-1"></a>employ.sm <span class="ot">&lt;-</span> <span class="fu">sammon</span>(employ.dist, <span class="at">k=</span><span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## Initial stress        : 0.12723
+## stress after  10 iters: 0.06316, magic = 0.092
+## stress after  20 iters: 0.04799, magic = 0.500
+## stress after  30 iters: 0.04667, magic = 0.500
+## stress after  40 iters: 0.04664, magic = 0.500</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="solutions.html#cb33-1" tabindex="-1"></a><span class="fu">plot</span>(employ.sm<span class="sc">$</span>points, <span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Axis 1&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Axis 2&quot;</span>,<span class="at">asp=</span><span class="dv">1</span>)</span>
+<span id="cb33-2"><a href="solutions.html#cb33-2" tabindex="-1"></a><span class="fu">text</span>(employ.sm<span class="sc">$</span>points, <span class="at">labels=</span><span class="fu">names</span>(employ.dist))</span></code></pre></div>
+<p><img src="main_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>As <code>sammon</code> is not from the <code>smacof</code> library, we cannot easily plot the Shepard diagram by setting <code>plot.type="Shepard"</code>. Instead, an additional command <code>Shepard</code> is needed to produce the Shepard diagram.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="solutions.html#cb34-1" tabindex="-1"></a>employ.sh<span class="ot">&lt;-</span><span class="fu">Shepard</span>(employ.dist, employ.sm<span class="sc">$</span>points, <span class="at">p=</span><span class="dv">2</span>)</span>
+<span id="cb34-2"><a href="solutions.html#cb34-2" tabindex="-1"></a><span class="fu">plot</span>(employ.sh, <span class="at">pch=</span><span class="st">&quot;.&quot;</span>)</span>
+<span id="cb34-3"><a href="solutions.html#cb34-3" tabindex="-1"></a><span class="fu">lines</span>(employ.sh<span class="sc">$</span>x, employ.sh<span class="sc">$</span>yf, <span class="at">type =</span> <span class="st">&quot;S&quot;</span>)</span></code></pre></div>
+<p><img src="main_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <ol start="5" style="list-style-type: lower-alpha">
 <li></li>
 </ol>
-<p>There is no clear group structure when applying Sammon mapping on the dissimilarity matrix computed over variables.</p>
-<p>When applying Sammon mapping on the dissimilarity matrix computed over countries, it seems that Turkey locates far away from the remaining countries, indicating the potential existence of outliers.</p>
+<p>There is no clear group structure when applying metric MDS or Sammon mapping on the dissimilarity matrix computed over countries. Turkey seems to locate slightly far away from the remaining countries.</p>
 <ol start="6" style="list-style-type: lower-alpha">
-<li>The closer the configuration points are, the more similar the variables are.</li>
+<li>You can perform the above analysis again, but using <code>employ.dist.var</code> as the input to MDS methods.</li>
 </ol>
 
 </div>
@@ -550,6 +577,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

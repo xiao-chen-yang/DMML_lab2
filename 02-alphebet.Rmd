@@ -28,7 +28,16 @@ The dataset is available from 'Datasets for week 2', under the name 'letter.csv'
 
 (e) Comment on any pattern from the configuration plot. 
 
-(f) Apart from the number of dimensions, have you introduced any other parameter in your analysis? If so, study the influences by trying different values.
+`r hide("Hint")`
+If you would like to visualise the data in 3D, the following commands may be helpful. 
+```{r, eval=FALSE}
+library(rgl)
+plot3d(...)
+text3d(...)
+```
+`r unhide()`
+
+(f) Apart from the number of dimensions, have you introduced any other parameter(s) in your analysis? If so, study their influence by trying different values.
 
 (g) Finally, as mentioned in the lecture note, MDS are sensitive to initial configurations. Try multiple initial configurations and compare the results. 
 *You may need to look into the help page of `mds` to find out how to change the initial configuration.*
